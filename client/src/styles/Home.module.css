@@ -1,191 +1,494 @@
+.container {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+/* Hero Section */
 .hero {
+    position: relative;
+    height: 90vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 80vh;
+    background: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa?q=80&w=1600') no-repeat center center/cover;
     text-align: center;
-    background: url('https://images.unsplash.com/photo-1587174486073-ae5e5cff23aa') no-repeat center center/cover;
+}
+
+.heroOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to bottom, rgba(11, 15, 12, 0.4) 30%, var(--bg-primary) 100%);
+    z-index: 1;
 }
 
 .heroContent {
-    text-align: center;
-    color: white;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    padding: 30px;
-    border-radius: 15px;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-.features {
-    text-align: center;
-    padding: 50px 20px;
-}
-
-.featuresGrid {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-}
-
-.featureCard {
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    padding: 20px;
-    border-radius: 10px;
-    width: 250px;
-    text-align: center;
-    animation: fadeIn 1.5s ease-in-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(-10px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-.featuredCourse {
-    padding: 2rem;
-    margin: 2rem 0;
-    background: rgba(255, 255, 255, 0.1);
-    backdrop-filter: blur(10px);
-    border-radius: 15px;
-}
-
-.featuredCourses {
-    padding: 2rem;
-    margin: 2rem 0;
-}
-
-.courseGrid {
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-}
-
-.courseCard {
-    display: flex;
-    gap: 2rem;
-    margin-top: 2rem;
-    background: rgba(255, 255, 255, 0.05);
-    backdrop-filter: blur(15px);
-    padding: 2rem;
-    border-radius: 15px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.courseCard:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.2);
-}
-
-.courseImage {
-    flex: 1;
-    max-width: 500px;
-}
-
-.courseImage img {
-    width: 100%;
-    height: 300px;
-    object-fit: cover;
-    border-radius: 12px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    transition: transform 0.3s ease;
-}
-
-.courseImage img:hover {
-    transform: scale(1.02);
-}
-
-.courseInfo {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-}
-
-.courseFeatures {
-    margin-top: auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-}
-
-.courseFeatures ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-.courseFeatures li {
-    margin: 0.5rem 0;
-    padding-left: 1.5rem;
     position: relative;
+    z-index: 2;
+    max-width: 850px;
+    padding: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    animation: fadeInUp 1s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.courseFeatures li:before {
-    content: "✓";
-    position: absolute;
-    left: 0;
-    color: #4caf50;
+.heroTagline {
+    font-size: 0.95rem;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--gold-accent);
+    margin-bottom: 15px;
+    text-transform: uppercase;
 }
 
-@media (max-width: 768px) {
-    .courseCard {
-        flex-direction: column;
-        padding: 1rem;
-    }
+.heroTitle {
+    font-size: 5rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1.1;
+    color: #ffffff;
+    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+}
 
-    .courseImage {
-        max-width: 100%;
-    }
+.heroSubtitle {
+    font-size: 1.35rem;
+    color: rgba(255, 255, 255, 0.9);
+    margin: 25px 0 40px;
+    max-width: 650px;
+    line-height: 1.6;
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+}
 
-    .courseFeatures {
-        flex-direction: column;
-        gap: 1rem;
-    }
+.heroBtn {
+    background-color: var(--gold-accent);
+    color: #0b0e0c !important;
+    border: 1px solid var(--gold-accent);
+    padding: 14px 40px;
+    font-size: 1.05rem;
+    font-weight: 700;
+    border-radius: 30px;
+    cursor: pointer;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.25);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.heroBtn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(212, 175, 55, 0.4);
+    background-color: var(--gold-accent-hover);
+    border-color: var(--gold-accent-hover);
+}
+
+/* Logo Runner Section */
+.logoRunnerSection {
+    padding: 40px 0;
+    text-align: center;
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.runnerTitle {
+    font-size: 0.8rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--text-secondary);
+    margin-bottom: 25px;
 }
 
 .logoContainer {
     position: relative;
     width: 100%;
-    height: 100px;
+    height: 60px;
     overflow: hidden;
-    background: transparent;
-    margin: 15px 0;
+    display: flex;
+    align-items: center;
 }
 
 .runningLogo {
     position: absolute;
-    top: 20%;
-    height: 60px;
-    animation: runAcross 15s linear infinite;
-    filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.3));
+    height: 40px;
+    width: auto;
+    object-fit: contain;
+    animation: runAcross 20s linear infinite;
+    opacity: 0.7;
+    filter: grayscale(100%);
+    transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
-.logo1 {
-    animation: runAcross 15s linear infinite;
-    animation-delay: 0s;
+.runningLogo:hover {
+    opacity: 1;
+    filter: grayscale(0%);
 }
 
-.logo2 {
-    animation: runAcross 15s linear infinite;
-    animation-delay: 3s;
+.logo1 { animation-delay: 0s; }
+.logo2 { animation-delay: 4s; }
+.logo3 { animation-delay: 8s; }
+.logo4 { animation-delay: 12s; }
+.logo5 { animation-delay: 16s; }
+
+/* Featured Courses Section */
+.featuredCourses {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.logo3 {
-    animation: runAcross 15s linear infinite;
-    animation-delay: 6s;
+.sectionHeader {
+    text-align: center;
+    margin-bottom: 70px;
 }
 
-.logo4 {
-    animation: runAcross 15s linear infinite;
-    animation-delay: 9s;
+.sectionHeader h2 {
+    font-size: 2.8rem;
+    margin-bottom: 10px;
 }
 
-.logo5 {
-    animation: runAcross 15s linear infinite;
-    animation-delay: 12s;
+.sectionHeader p {
+    font-size: 1.15rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.goldDivider {
+    width: 60px;
+    height: 3px;
+    background-color: var(--gold-accent);
+    margin: 20px auto;
+    border-radius: 2px;
+}
+
+.courseGrid {
+    display: flex;
+    flex-direction: column;
+    gap: 50px;
+}
+
+.courseCard {
+    display: flex;
+    gap: 50px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 24px;
+    padding: 30px;
+    box-shadow: 0 10px 40px var(--shadow-color);
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    backdrop-filter: blur(20px);
+}
+
+.courseCard:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px var(--shadow-color);
+    border-color: var(--gold-accent);
+}
+
+.courseImage {
+    flex: 1;
+    position: relative;
+    border-radius: 16px;
+    overflow: hidden;
+    max-width: 500px;
+    height: 320px;
+}
+
+.courseImage img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.courseCard:hover .courseImage img {
+    transform: scale(1.05);
+}
+
+.difficultyBadge {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    background-color: var(--primary-accent);
+    color: var(--bg-primary);
+    padding: 6px 16px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    border-radius: 20px;
+    border: 1px solid var(--gold-accent);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.courseInfo {
+    flex: 1.2;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.courseInfo h3 {
+    font-size: 2.2rem;
+    margin: 0 0 5px;
+}
+
+.locationLabel {
+    font-size: 0.95rem;
+    color: var(--gold-accent);
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    margin-bottom: 20px;
+    display: block;
+}
+
+.courseInfo p {
+    color: var(--text-secondary);
+    line-height: 1.7;
+    font-size: 1.05rem;
+    margin: 0 0 25px;
+}
+
+.courseFeatures {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-top: auto;
+    gap: 20px;
+}
+
+.courseFeatures ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+}
+
+.courseFeatures li {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+}
+
+.courseFeatures li::before {
+    content: "◈";
+    color: var(--gold-accent);
+    font-size: 0.8rem;
+}
+
+.courseBtn {
+    background: transparent;
+    border: 1.5px solid var(--primary-accent);
+    color: var(--text-primary) !important;
+    padding: 10px 24px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 25px;
+    cursor: pointer;
+    box-shadow: none;
+    transition: all 0.3s ease;
+}
+
+.courseCard:hover .courseBtn {
+    background-color: var(--primary-accent);
+    color: var(--bg-primary) !important;
+}
+
+.courseBtn:hover {
+    border-color: var(--gold-accent);
+    transform: translateY(-2px);
+}
+
+/* Why Us Section */
+.whyUs {
+    padding: 100px 40px;
+    background-color: var(--bg-secondary);
+    border-top: 1px solid var(--border-color);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.featuresGrid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.featureCard {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    padding: 40px 30px;
+    border-radius: 20px;
+    text-align: center;
+    box-shadow: 0 10px 30px var(--shadow-color);
+    transition: all 0.3s ease;
+}
+
+.featureCard:hover {
+    transform: translateY(-5px);
+    border-color: var(--gold-accent);
+}
+
+.featureIcon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+}
+
+.featureCard h3 {
+    font-size: 1.4rem;
+    margin-bottom: 15px;
+}
+
+.featureCard p {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    line-height: 1.6;
+    margin: 0;
+}
+
+/* Partners Promotion */
+.partnersPromotion {
+    padding: 100px 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.promotions {
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.banner {
+    flex: 1;
+    min-width: 340px;
+    position: relative;
+    height: 340px;
+    border-radius: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border-color);
+    box-shadow: 0 10px 35px var(--shadow-color);
+    background: var(--card-bg);
+}
+
+.bannerOverlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 10% 20%, var(--hover-color) 0%, transparent 60%);
+    z-index: 1;
+}
+
+.bannerContent {
+    position: relative;
+    z-index: 2;
+    padding: 40px;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.bannerContent h3 {
+    font-size: 1.8rem;
+    margin: 0 0 10px;
+}
+
+.bannerContent p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    line-height: 1.6;
+    margin: 0 0 20px;
+}
+
+.partnerLogos {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin: 20px 0;
+}
+
+.partnerLogo {
+    height: 50px;
+    width: auto;
+    object-fit: contain;
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.partnerLogo:hover {
+    opacity: 1;
+}
+
+.storeLogos {
+    display: flex;
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.storeLogos img {
+    height: 45px;
+    width: auto;
+    object-fit: contain;
+}
+
+.bannerBtn {
+    align-self: flex-start;
+    background-color: var(--primary-accent);
+    color: var(--bg-primary) !important;
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    border: 1px solid var(--border-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.bannerBtn:hover {
+    background-color: var(--primary-accent-hover);
+    border-color: var(--gold-accent);
+    transform: translateY(-2px);
+}
+
+.bannerBtnLink {
+    align-self: flex-start;
+    background-color: var(--gold-accent);
+    color: #0b0e0c !important;
+    padding: 10px 24px;
+    border-radius: 25px;
+    font-weight: 600;
+    border: 1px solid var(--gold-accent);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+}
+
+.bannerBtnLink:hover {
+    background-color: var(--gold-accent-hover);
+    border-color: var(--gold-accent-hover);
+    transform: translateY(-2px);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 @keyframes runAcross {
@@ -197,202 +500,43 @@
     }
 }
 
-#partners-promotion {
-    text-align: center;
-    padding: 40px 20px;
-    background: (255, 255, 255, 0.05)}
-  
-  #partners-promotion h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #333; /* Dark gray to match your site */
-    text-transform: uppercase;
-    margin-bottom: 30px;
-  }
-  
-  .promotions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-  }
-  
-  .banner {
-    position: relative;
-    width: 48%;
-    height: 300px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
-  }
-  
-  .banner::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(255, 255, 255, 0.15); /* Semi-transparent overlay for readability */
-    backdrop-filter: blur(10px);
-    z-index: 0;
-  }
-  
-  .banner-content {
-    position: relative;
-    z-index: 1;
-    padding: 20px;
-    color: white;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-  }
-  
-  .banner-content h3 {
-    font-size: 1.8rem;
-    font-weight: bold;
-    margin-bottom: 10px;
-  }
-  
-  .banner-content p {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-  }
-  
-  .smartphone-img {
-    width: 100px;
-    height: auto;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-  }
-  
-  .logos {
-    display: flex;
-    gap: 10px;
-    margin-top: auto;
-  }
-  
-  .logos img {
-    width: 50px;
-    height: auto;
-  }
-  
-  .btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff; /* Blue to match your site’s buttons */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-top: 15px;
-    transition: background-color 0.3s;
-  }
-  
-  .btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-  }
-  
-  /* Responsive Design */
-  @media (max-width: 768px) {
-    .banner {
-      width: 100%;
+/* Responsive adjustments */
+@media (max-width: 992px) {
+    .courseCard {
+        flex-direction: column;
+        gap: 30px;
+        padding: 25px;
     }
-  }
- 
-  .partnersPromotion {
-    text-align: center;
-    padding: 40px 20px;
-    background: (255, 255, 255, 0.05)}
- 
-.partnersPromotion h2 {
-    font-size: 2.5rem;
-    font-weight: bold;
-    color: #333; /* Dark gray to match your site */
-    text-transform: uppercase;
-    margin-bottom: 30px;
+    
+    .courseImage {
+        max-width: 100%;
+        height: 250px;
+    }
 }
- 
-.promotions {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-}
- 
-.banner {
-    position: relative;
-    width: 48%;
-    height: 300px;
-    background-size: cover;
-    background-position: center;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 20px;
-}
- 
-.bannerContent {
-    position: relative;
-    z-index: 1;
-    padding: 20px;
-    color: white;
-    text-align: left;
-    display: flex;
-    flex-direction: column;
-    height: 100%;
-}
- 
-.smartphoneImg {
-    width: 100px;
-    height: auto;
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-}
- 
-.logos {
-    display: flex;
-    gap: 10px;
-    margin-top: auto;
-}
- 
-.logos img {
-    width: 200px;
-    height: auto;
-}
- 
-.btn {
-    display: inline-block;
-    padding: 10px 20px;
-    background-color: #007bff; /* Blue to match your site’s buttons */
-    color: white;
-    text-decoration: none;
-    border-radius: 5px;
-    font-weight: bold;
-    margin-top: 15px;
-    transition: background-color 0.3s;
-}
- 
-.btn:hover {
-    background-color: #0056b3; /* Darker blue on hover */
-}
- 
-.partnerLogos {
-    background: transparent;
-    display: flex;
-    justify-content: center;
-    gap: 40px; /* Space between logos */
-    margin-top: 15px;
-}
- 
-.partnerLogo {
-    width: 100px; /* Adjust the size as needed */
-    height: 110px;
-    display: block;
+
+@media (max-width: 768px) {
+    .heroTitle {
+        font-size: 3.5rem;
+    }
+    
+    .heroSubtitle {
+        font-size: 1.15rem;
+    }
+    
+    .featuredCourses, .whyUs, .partnersPromotion {
+        padding: 60px 20px;
+    }
+    
+    .courseFeatures {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .courseFeatures ul {
+        grid-template-columns: 1fr;
+    }
+    
+    .bannerContent {
+        padding: 25px;
+    }
 }

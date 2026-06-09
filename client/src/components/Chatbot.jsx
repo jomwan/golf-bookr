@@ -1,18 +1,18 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { TextField, Button, Typography, Box, CircularProgress } from '@mui/material';
+import { Typography } from '@mui/material';
 import SendIcon from '@mui/icons-material/Send';
 import styles from '../styles/Chatbot.module.css';
 import api from '../services/api';
 
 const formatAIMessage = (message) => {
     return message.split('\n').map((line, i) => {
-        if (!line.trim()) return null; // Skip empty lines
+        if (!line.trim()) return null;
         
         if (line.startsWith('►')) {
             return <h3 key={i} className={styles.sectionHeader}>{line}</h3>;
         } else if (line.startsWith('•')) {
-            return <span key={i} className={styles.bulletPoint}>{line}</span>;
+            return <span key={i} className={styles.bulletPoint}>{line.substring(1).trim()}</span>;
         } else if (line.startsWith('⛳')) {
             return <h4 key={i} className={styles.courseTitle}>{line}</h4>;
         } else if (line.startsWith('─')) {
@@ -20,22 +20,29 @@ const formatAIMessage = (message) => {
         } else {
             return <span key={i} className={styles.textLine}>{line}</span>;
         }
-    }).filter(Boolean); // Remove null values
+    }).filter(Boolean);
 };
 
 const Chatbot = () => {
     const navigate = useNavigate();
-    const [messages, setMessages] = useState([]);
+    const [messages, setMessages] = useState([
+        { text: "⛳ Tee off! I'm CawFee, your elite golf concierge. Looking for tomorrow's best slots or a specific difficulty layout? Tell me your group size and preferences!", isUser: false }
+    ]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const chatEndRef = useRef(null);
 
     useEffect(() => {
-        // Check authentication
         const token = localStorage.getItem('token');
         if (!token) {
             navigate('/login');
         }
     }, [navigate]);
+
+    // Scroll to bottom whenever messages list changes
+    useEffect(() => {
+        chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }, [messages, loading]);
 
     const handleSend = async () => {
         if (!input.trim() || loading) return;
@@ -46,12 +53,10 @@ const Chatbot = () => {
         setLoading(true);
 
         try {
-            // Fix: Simplified endpoint path
             const response = await api.post('/chat', { 
                 message: userMessage 
             });
             
-            console.log('Chat response:', response.data);
             if (response.data.success) {
                 setMessages(prev => [...prev, { 
                     text: response.data.message, 
@@ -65,7 +70,7 @@ const Chatbot = () => {
                 navigate('/login');
             } else {
                 setMessages(prev => [...prev, { 
-                    text: error.response?.data?.message || "Sorry, I'm having trouble connecting right now.", 
+                    text: error.response?.data?.message || "My apologies. I'm experiencing a brief connection delay on the fairway.", 
                     isUser: false 
                 }]);
             }
@@ -83,7 +88,10 @@ const Chatbot = () => {
 
     return (
         <div className={styles.container}>
-            <Typography variant="h4" gutterBottom>CawFee AI Golf Assistant</Typography>
+            <div className="text-center mb-4">
+                <Typography variant="h2" gutterBottom>CawFee AI Assistant</Typography>
+                <div className="gold-text fw-semibold">PERSONAL GOLF CONCIERGE</div>
+            </div>
             
             <div className={styles.chatWindow}>
                 {messages.map((message, index) => (
@@ -102,30 +110,36 @@ const Chatbot = () => {
                 ))}
                 {loading && (
                     <div className={styles.aiMessage}>
-                        <CircularProgress size={20} />
+                        <div className={styles.typingIndicator}>
+                            <div className={styles.typingDot} />
+                            <div className={styles.typingDot} />
+                            <div className={styles.typingDot} />
+                        </div>
                     </div>
                 )}
+                <div ref={chatEndRef} />
             </div>
 
-            <Box className={styles.inputContainer}>
-                <TextField
-                    fullWidth
-                    variant="outlined"
-                    placeholder="Ask CawFee about golf courses, tee-times, or booking..."
+            <div className={styles.inputContainer}>
+                <input
+                    className="form-control"
+                    placeholder="Ask CawFee about courses, tee-times, or bookings..."
                     value={input}
                     onChange={(e) => setInput(e.target.value)}
-                    onKeyPress={handleKeyPress}
+                    onKeyDown={handleKeyPress}
                     disabled={loading}
+                    style={{ flex: 1 }}
                 />
-                <Button
-                    variant="contained"
-                    endIcon={loading ? <CircularProgress size={20} color="inherit" /> : <SendIcon />}
+                <button
+                    className="btn btn-primary rounded-pill d-flex align-items-center gap-2"
                     onClick={handleSend}
                     disabled={!input.trim() || loading}
+                    style={{ height: '50px', padding: '0 25px' }}
                 >
-                    Send
-                </Button>
-            </Box>
+                    <span>Send</span>
+                    <SendIcon style={{ fontSize: '16px' }} />
+                </button>
+            </div>
         </div>
     );
 };

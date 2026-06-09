@@ -1,9 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import {
-    Typography, Select, MenuItem, Button, TextField,
-    FormControl, InputLabel, Box, Alert, FormGroup, FormControlLabel, Checkbox
-} from '@mui/material';
+import { Typography, Alert, FormControl, InputLabel, Select, MenuItem, TextField, Button } from '@mui/material';
 import styles from '../styles/Booking.module.css';
 import api from '../services/api';
 
@@ -33,7 +30,7 @@ const Booking = () => {
     const [players, setPlayers] = useState(1);
     const [message, setMessage] = useState({ text: '', type: '' });
     const [bookingConfirmed, setBookingConfirmed] = useState(false);
-    const [refreshInterval, setRefreshInterval] = useState(30000); // 30 second refresh
+    const [refreshInterval] = useState(30000); // 30 second refresh
     const [lastUpdate, setLastUpdate] = useState(null);
     const [wsConnected, setWsConnected] = useState(false);
     const [services, setServices] = useState({
@@ -54,7 +51,6 @@ const Booking = () => {
         fetchCourses();
     }, [navigate]);
 
-    // Memoize fetchCourses to prevent unnecessary re-renders
     const fetchCourses = useCallback(async () => {
         try {
             const response = await api.get('/bookings/courses');
@@ -67,7 +63,6 @@ const Booking = () => {
         }
     }, []);
 
-    // Update handleSearch to include real-time checks
     const handleSearch = async () => {
         if (!selectedCourse || !selectedDate) {
             setMessage({ text: 'Please select both course and date', type: 'error' });
@@ -79,7 +74,7 @@ const Booking = () => {
                 params: { 
                     courseId: selectedCourse, 
                     date: selectedDate,
-                    timestamp: new Date().getTime() // Add timestamp to prevent caching
+                    timestamp: new Date().getTime()
                 }
             });
             
@@ -121,7 +116,6 @@ const Booking = () => {
         }
     };
 
-    // Add WebSocket connection
     useEffect(() => {
         const ws = new WebSocket('ws://localhost:3000');
         
@@ -133,7 +127,7 @@ const Booking = () => {
         ws.onmessage = (event) => {
             const data = JSON.parse(event.data);
             if (data.type === 'booking_update' && selectedCourse && selectedDate) {
-                handleSearch(); // Refresh tee times when new booking occurs
+                handleSearch();
             }
         };
         
@@ -150,7 +144,6 @@ const Booking = () => {
         return () => ws.close();
     }, [selectedCourse, selectedDate]);
 
-    // Add auto-refresh for selected date/course
     useEffect(() => {
         if (selectedCourse && selectedDate) {
             const intervalId = setInterval(handleSearch, refreshInterval);
@@ -158,10 +151,8 @@ const Booking = () => {
         }
     }, [selectedCourse, selectedDate, refreshInterval]);
 
-    // Add this new function to fetch today's tee times
     const fetchTodaysTeeTimes = async () => {
         try {
-            const today = new Date().toISOString().split('T')[0];
             const response = await api.get('/bookings/today-tee-times', {
                 params: { 
                     timestamp: new Date().getTime()
@@ -189,203 +180,233 @@ const Booking = () => {
 
     return (
         <div className={styles.container}>
-            <Typography variant="h4" gutterBottom>Choose Golf Course (Holes) and Date</Typography>
+            <div className="text-center mb-4">
+                <Typography variant="h2" gutterBottom>Reserve Your Tee Time</Typography>
+                <div className="gold-text fw-semibold">PREMIUM BOOKING SERVICE</div>
+            </div>
 
             <div className={styles.actionButtons}>
-                <Button 
-                    variant="contained" 
+                <button 
+                    className="btn btn-primary rounded-pill"
                     onClick={fetchTodaysTeeTimes}
-                    sx={{ mb: 2, mr: 2 }}
                 >
-                    View Today's Available Tee Times
-                </Button>
+                    View Today's Available Times
+                </button>
                 {viewingToday && (
-                    <Button 
-                        variant="outlined"
+                    <button 
+                        className="btn btn-outline-secondary rounded-pill"
                         onClick={() => setViewingToday(false)}
-                        sx={{ mb: 2 }}
                     >
-                        Back to Course Selection
-                    </Button>
+                        Back to Selection
+                    </button>
                 )}
             </div>
 
             {!viewingToday ? (
-                // Original course selection form
                 <div className={styles.courseSelection}>
-                    <FormControl fullWidth margin="normal">
-                        <InputLabel>Select Course</InputLabel>
-                        <Select
-                            value={selectedCourse}
-                            onChange={(e) => setSelectedCourse(e.target.value)}
-                        >
-                            {courses.map(course => (
-                                <MenuItem key={course.id} value={course.id}>
-                                    {course.name}
-                                </MenuItem>
-                            ))}
-                        </Select>
-                    </FormControl>
-                    
-                    <TextField
-                        fullWidth
-                        margin="normal"
-                        type="date"
-                        label="Select Date"
-                        value={selectedDate}
-                        onChange={(e) => setSelectedDate(e.target.value)}
-                        InputLabelProps={{ shrink: true }}
-                    />
-                    
-                    <div className="d-flex justify-content-between align-items-center mt-2">
-                        <Button 
-                            variant="contained"
-                            onClick={handleSearch}
-                            sx={{ width: 'auto' }}
-                        >
-                            Search Available Tee Times
-                        </Button>
-                        
+                    <div className={styles.searchHeader}>
+                        <h3>Find Tee Times</h3>
                         {lastUpdate && (
                             <small className="text-muted">
-                                Last updated: {new Date(lastUpdate).toLocaleTimeString()}
-                                {wsConnected && <span className="text-success ms-2">●</span>}
+                                Live {wsConnected ? <span className="text-success ms-1">●</span> : <span className="text-warning ms-1">○</span>}
                             </small>
                         )}
                     </div>
+                    
+                    <div className="row g-3">
+                        <div className="col-md-6">
+                            <FormControl fullWidth>
+                                <InputLabel id="course-select-label" sx={{ color: 'var(--text-secondary)' }}>Select Course</InputLabel>
+                                <Select
+                                    labelId="course-select-label"
+                                    value={selectedCourse}
+                                    onChange={(e) => setSelectedCourse(e.target.value)}
+                                    label="Select Course"
+                                    sx={{
+                                        color: 'var(--text-primary)',
+                                        '.MuiOutlinedInput-notchedOutline': { borderColor: 'var(--border-color)' },
+                                        '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'var(--gold-accent)' },
+                                        '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'var(--gold-accent)' }
+                                    }}
+                                >
+                                    {courses.map(course => (
+                                        <MenuItem key={course.id} value={course.id} sx={{ color: '#000000' }}>
+                                            {course.name} ({course.holes} Holes)
+                                        </MenuItem>
+                                    ))}
+                                </Select>
+                            </FormControl>
+                        </div>
+                        
+                        <div className="col-md-6">
+                            <TextField
+                                fullWidth
+                                type="date"
+                                label="Select Date"
+                                value={selectedDate}
+                                onChange={(e) => setSelectedDate(e.target.value)}
+                                InputLabelProps={{ shrink: true }}
+                                sx={{
+                                    input: { color: 'var(--text-primary)' },
+                                    label: { color: 'var(--text-secondary)' },
+                                    '.MuiOutlinedInput-notchedOutline': { borderColor: 'var(--border-color)' },
+                                    '&:hover .MuiOutlinedInput-notchedOutline': { borderColor: 'var(--gold-accent)' },
+                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': { borderColor: 'var(--gold-accent)' }
+                                }}
+                            />
+                        </div>
+                    </div>
+
+                    <button 
+                        className="btn btn-primary rounded-pill align-self-start mt-3"
+                        onClick={handleSearch}
+                    >
+                        Search Available Slots
+                    </button>
                 </div>
             ) : (
-                // Today's tee times view
                 <div className={styles.todaysTeeTimes}>
-                    <Typography variant="h5" gutterBottom>
-                        Available Tee Times for Today
-                    </Typography>
+                    <h3>Available Tee Times for Today</h3>
                     
                     {todaysTeeTimes.length > 0 ? (
                         <div className={styles.teeTimeGrid}>
                             {todaysTeeTimes.map((time) => (
                                 <div key={time.id} className={styles.teeTimeCard}>
-                                    <Typography variant="h6">{time.course_name}</Typography>
-                                    <Typography>{formatTime(time.time)}</Typography>
-                                    <Button
-                                        variant="contained"
+                                    <div>
+                                        <h4>{time.course_name}</h4>
+                                        <p className="gold-text fw-semibold mt-1">{formatTime(time.time)}</p>
+                                    </div>
+                                    <button
+                                        className="btn btn-primary rounded-pill w-100 mt-2"
                                         onClick={() => {
                                             setSelectedTime(time);
                                             setViewingToday(false);
                                         }}
-                                        sx={{ mt: 1 }}
                                     >
                                         Book Now
-                                    </Button>
+                                    </button>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                        <Alert severity="info">
+                        <Alert severity="info" sx={{ borderRadius: '12px' }}>
                             No available tee times for today
                         </Alert>
                     )}
                 </div>
             )}
 
-            {/* Rest of the component */}
-            {teeTimes.length > 0 && (
+            {teeTimes.length > 0 && !viewingToday && (
                 <div className={styles.teeTimesList}>
-                    {teeTimes.map((time) => (
-                        <div key={time.id} className={styles.teeTimeCard}>
-                            <div>
-                                <Typography variant="h6">{time.course_name}</Typography>
-                                <Typography>
-                                    {formatDate(time.date)} at {formatTime(time.time)}
-                                </Typography>
+                    <h3>Available Slots</h3>
+                    <div className={styles.teeTimeGrid}>
+                        {teeTimes.map((time) => (
+                            <div key={time.id} className={styles.teeTimeCard}>
+                                <div>
+                                    <h4>{time.course_name}</h4>
+                                    <p className="mt-1">{formatDate(time.date)}</p>
+                                    <p className="gold-text fw-bold mt-1">{formatTime(time.time)}</p>
+                                </div>
+                                <button
+                                    className="btn btn-primary rounded-pill w-100 mt-2"
+                                    onClick={() => setSelectedTime(time)}
+                                >
+                                    Select Slot
+                                </button>
                             </div>
-                            <Button
-                                variant="contained"
-                                onClick={() => setSelectedTime(time)}
-                            >
-                                Select
-                            </Button>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             )}
 
             {selectedTime && !bookingConfirmed && (
-                <Box className={styles.confirmationDetails}>
-                    <Typography variant="h6">Confirm Booking</Typography>
-                    <Typography>
-                        {formatDate(selectedTime.date)} at {formatTime(selectedTime.time)}
-                    </Typography>
-                    <TextField
-                        type="number"
-                        label="Number of Players"
-                        value={players}
-                        onChange={(e) => setPlayers(Math.max(1, Math.min(4, Number(e.target.value))))}
-                        inputProps={{ min: 1, max: 4 }}
-                        fullWidth
-                        margin="normal"
-                    />
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={services.caddie_requested}
-                                    onChange={(e) => setServices({
-                                        ...services,
-                                        caddie_requested: e.target.checked
-                                    })}
-                                />
-                            }
-                            label="Request Caddie"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={services.cart_requested}
-                                    onChange={(e) => setServices({
-                                        ...services,
-                                        cart_requested: e.target.checked
-                                    })}
-                                />
-                            }
-                            label="Request Golf Cart"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={Boolean(services.equipment_rental)}
-                                    onChange={(e) => setServices({
-                                        ...services,
-                                        equipment_rental: e.target.checked ? {} : null
-                                    })}
-                                />
-                            }
-                            label="Need Equipment Rental"
-                        />
-                    </FormGroup>
+                <div className={styles.confirmationDetails}>
+                    <h3>Confirm Booking</h3>
+                    <p className="gold-text fw-semibold">
+                        {selectedTime.course_name} — {formatDate(selectedTime.date)} at {formatTime(selectedTime.time)}
+                    </p>
+                    
+                    <div className={styles.formSection}>
+                        <div className="row g-3">
+                            <div className="col-md-6">
+                                <label className="form-label fw-semibold">Number of Players</label>
+                                <select 
+                                    className="form-select"
+                                    value={players}
+                                    onChange={(e) => setPlayers(Number(e.target.value))}
+                                >
+                                    {[1, 2, 3, 4].map(n => (
+                                        <option key={n} value={n} style={{ color: '#000000' }}>{n} Player{n > 1 ? 's' : ''}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            
+                            <div className="col-md-6">
+                                <label className="form-label fw-semibold">Add-on Services</label>
+                                <div className={styles.servicesGroup}>
+                                    <div className="form-check">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            id="caddieCheck"
+                                            checked={services.caddie_requested}
+                                            onChange={(e) => setServices({...services, caddie_requested: e.target.checked})}
+                                        />
+                                        <label className="form-check-label" htmlFor="caddieCheck">
+                                            Request Professional Caddie
+                                        </label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            id="cartCheck"
+                                            checked={services.cart_requested}
+                                            onChange={(e) => setServices({...services, cart_requested: e.target.checked})}
+                                        />
+                                        <label className="form-check-label" htmlFor="cartCheck">
+                                            Reserve Golf Cart
+                                        </label>
+                                    </div>
+                                    <div className="form-check">
+                                        <input 
+                                            className="form-check-input" 
+                                            type="checkbox" 
+                                            id="equipmentCheck"
+                                            checked={Boolean(services.equipment_rental)}
+                                            onChange={(e) => setServices({...services, equipment_rental: e.target.checked ? {} : null})}
+                                        />
+                                        <label className="form-check-label" htmlFor="equipmentCheck">
+                                            Elite Golf Club Rental
+                                        </label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
-                    <TextField
-                        multiline
-                        rows={3}
-                        fullWidth
-                        margin="normal"
-                        label="Special Requests"
-                        value={specialRequests}
-                        onChange={(e) => setSpecialRequests(e.target.value)}
-                    />
+                        <div className="mt-2">
+                            <label className="form-label fw-semibold">Special Requests / Concierge Notes</label>
+                            <textarea 
+                                className="form-control"
+                                rows={3}
+                                placeholder="Dietary restrictions, caddie preferences, handicap details, etc."
+                                value={specialRequests}
+                                onChange={(e) => setSpecialRequests(e.target.value)}
+                            />
+                        </div>
 
-                    <Button
-                        variant="contained"
-                        onClick={handleBooking}
-                        sx={{ mt: 2 }}
-                    >
-                        Confirm Booking
-                    </Button>
-                </Box>
+                        <button
+                            className="btn btn-primary rounded-pill align-self-start mt-3"
+                            onClick={handleBooking}
+                        >
+                            Finalize Booking
+                        </button>
+                    </div>
+                </div>
             )}
 
             {message.text && (
-                <Alert severity={message.type} sx={{ mt: 2 }}>
+                <Alert severity={message.type} sx={{ mt: 3, borderRadius: '12px' }}>
                     {message.text}
                 </Alert>
             )}

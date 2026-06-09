@@ -22,26 +22,40 @@ import AboutUs from './components/AboutUs';
 const theme = createTheme({
   palette: {
     primary: {
-      main: '#1976d2',
+      main: '#0f2d1d', // Forest green
     },
     secondary: {
-      main: '#dc004e',
+      main: '#d4af37', // Gold
     },
   },
-  // Add this to make MUI components respect the theme
+  typography: {
+    fontFamily: "'Outfit', sans-serif",
+    h1: { fontFamily: "'Playfair Display', serif" },
+    h2: { fontFamily: "'Playfair Display', serif" },
+    h3: { fontFamily: "'Playfair Display', serif" },
+    h4: { fontFamily: "'Playfair Display', serif" },
+    h5: { fontFamily: "'Outfit', sans-serif" },
+    h6: { fontFamily: "'Outfit', sans-serif" },
+  },
   components: {
     MuiPaper: {
       styleOverrides: {
         root: {
-          backgroundColor: 'var(--bg-secondary)',
+          backgroundColor: 'var(--card-bg)',
           color: 'var(--text-primary)',
+          backdropFilter: 'blur(24px)',
+          border: '1px solid var(--border-color)',
+          borderRadius: '16px',
         },
       },
     },
     MuiButton: {
       styleOverrides: {
         root: {
-          color: 'var(--text-primary)',
+          borderRadius: '30px',
+          textTransform: 'none',
+          fontWeight: 600,
+          padding: '8px 24px',
         },
       },
     },

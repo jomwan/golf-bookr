@@ -1,58 +1,64 @@
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&display=swap');
+
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
+  font-family: 'Outfit', system-ui, -apple-system, sans-serif;
+  line-height: 1.6;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.87);
   color-scheme: light dark;
-  background-color: #242424;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Dark mode styles */
-:root {
-  color: rgba(255, 255, 255, 0.9);
-  background-color: #121212;
-}
-
 /* Theme Variables */
 :root[data-theme="light"] {
-  --bg-primary: rgba(255, 255, 255, 0.5);
-  --bg-secondary: rgba(255, 255, 255, 0.75);
-  --text-primary: #000000;
-  --text-secondary: #333333;
-  --card-bg: rgba(255, 255, 255, 0.9);
-  --sidebar-bg: rgba(255, 255, 255, 0.95);
+  --bg-primary: hsl(140, 20%, 97%);
+  --bg-secondary: hsl(145, 15%, 92%);
+  --text-primary: hsl(145, 45%, 8%);
+  --text-secondary: hsl(145, 12%, 35%);
+  --card-bg: rgba(255, 255, 255, 0.75);
+  --sidebar-bg: rgba(255, 255, 255, 0.9);
   --modal-bg: rgba(255, 255, 255, 0.95);
-  --border-color: rgba(0, 0, 0, 0.2);
-  --hover-color: rgba(0, 0, 0, 0.1);
-  --shadow-color: rgba(0, 0, 0, 0.25);
+  --border-color: rgba(15, 45, 29, 0.08);
+  --hover-color: rgba(15, 45, 29, 0.04);
+  --shadow-color: rgba(15, 45, 29, 0.08);
+  --primary-accent: hsl(145, 45%, 16%);
+  --primary-accent-hover: hsl(145, 45%, 22%);
+  --gold-accent: hsl(43, 65%, 46%);
+  --gold-accent-hover: hsl(43, 65%, 38%);
+  --nav-bg: rgba(255, 255, 255, 0.8);
 }
 
 :root[data-theme="dark"] {
-  --bg-primary: #121212;
-  --bg-secondary: #1e1e1e;
-  --text-primary: rgba(255, 255, 255, 0.9);
-  --text-secondary: rgba(255, 255, 255, 0.7);
-  --card-bg: rgba(30, 30, 30, 0.8);
-  --sidebar-bg: rgba(18, 18, 18, 0.95);
-  --modal-bg: rgba(30, 30, 30, 0.95);
-  --border-color: rgba(255, 255, 255, 0.1);
-  --hover-color: rgba(255, 255, 255, 0.05);
+  --bg-primary: hsl(145, 30%, 6%);
+  --bg-secondary: hsl(145, 25%, 9%);
+  --text-primary: hsl(140, 20%, 96%);
+  --text-secondary: hsl(140, 10%, 75%);
+  --card-bg: rgba(11, 15, 12, 0.65);
+  --sidebar-bg: rgba(11, 15, 12, 0.85);
+  --modal-bg: rgba(15, 20, 17, 0.95);
+  --border-color: rgba(212, 175, 55, 0.12);
+  --hover-color: rgba(212, 175, 55, 0.06);
+  --shadow-color: rgba(0, 0, 0, 0.4);
+  --primary-accent: hsl(43, 75%, 52%);
+  --primary-accent-hover: hsl(43, 75%, 44%);
+  --gold-accent: hsl(43, 75%, 52%);
+  --gold-accent-hover: hsl(43, 75%, 44%);
+  --nav-bg: rgba(11, 15, 12, 0.75);
 }
 
 a {
   font-weight: 500;
-  color: #90caf9;
-  text-decoration: inherit;
-}
-a:hover {
-  color: #42a5f5;
+  color: var(--gold-accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
 }
 
-/* Apply theme colors */
+a:hover {
+  color: var(--primary-accent);
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -60,12 +66,9 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   position: relative;
-  backdrop-filter: none;
-  -webkit-backdrop-filter: none;
-}
-
-body::before {
-  display: none;
+  transition: background-color 0.4s ease, color 0.4s ease;
+  background-image: radial-gradient(circle at 10% 20%, var(--hover-color) 0%, transparent 40%),
+                    radial-gradient(circle at 90% 80%, var(--hover-color) 0%, transparent 40%);
 }
 
 #root {
@@ -73,149 +76,198 @@ body::before {
   width: 100%;
 }
 
+h1, h2, h3, h4 {
+  font-family: 'Playfair Display', Georgia, serif;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text-primary);
+}
+
 h1 {
   font-size: 3.2em;
-  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 button {
-  border-radius: 8px;
-  border: 1px solid transparent;
-  padding: 0.6em 1.2em;
-  font-size: 1em;
-  font-weight: 500;
-  font-family: inherit;
-  background-color: #1a1a1a;
-  cursor: pointer;
-  transition: border-color 0.25s;
-}
-button:hover {
-  border-color: #646cff;
-}
-button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-}
-
-@media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
-  }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-}
-
-/* Remove blur from app-container */
-.app-container {
-  padding-top: 60px;
-  min-height: 100vh;
-  box-shadow: 0 8px 32px 0 var(--shadow-color);
+  border-radius: 30px;
   border: 1px solid var(--border-color);
+  padding: 0.7em 1.8em;
+  font-size: 0.95em;
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+  background-color: var(--primary-accent);
+  color: var(--bg-primary) !important;
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 4px 10px var(--shadow-color);
 }
 
-/* Override Bootstrap background */
-.navbar {
-  z-index: 1030;
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 16px var(--shadow-color);
+  background-color: var(--primary-accent-hover);
+  border-color: var(--gold-accent);
+}
+
+button:active {
+  transform: translateY(0);
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-primary);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--gold-accent);
+}
+
+/* Layout Utilities */
+.app-container {
+  padding-top: 80px;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .sidebar {
   z-index: 1020;
-  height: calc(100vh - 60px);
+  height: calc(100vh - 80px);
   position: fixed;
-  top: 60px;
+  top: 80px;
   background: var(--sidebar-bg) !important;
+  border-right: 1px solid var(--border-color);
+  backdrop-filter: blur(20px);
 }
 
 .main-content {
-  margin-left: 16.666667%; /* For md-2 sidebar */
+  margin-left: 16.666667%;
+  padding: 2rem;
+  transition: margin-left 0.3s ease;
 }
 
 @media (max-width: 768px) {
   .main-content {
     margin-left: 0;
+    padding: 1rem;
   }
 }
 
-/* Add blur effect to card components */
+/* Premium Glass Cards */
 .card {
   background: var(--card-bg) !important;
-  backdrop-filter: blur(12px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(180%) !important;
-  border: 2px solid var(--border-color) !important;
-  box-shadow: 0 4px 12px var(--shadow-color) !important;
+  backdrop-filter: blur(24px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(24px) saturate(180%) !important;
+  border: 1px solid var(--border-color) !important;
+  box-shadow: 0 10px 30px -5px var(--shadow-color) !important;
+  border-radius: 20px !important;
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1) !important;
+  overflow: hidden;
 }
 
-/* Modify container blur effects */
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px -10px var(--shadow-color) !important;
+  border-color: var(--gold-accent) !important;
+}
+
+/* Container Adjustments */
 .container, .container-fluid {
-  background: var(--bg-secondary);
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-radius: 10px;
-  box-shadow: 0 8px 32px 0 var(--shadow-color);
-  padding: 20px;
-  margin-bottom: 20px;
+  background: transparent !important;
+  backdrop-filter: none !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 20px 0 !important;
 }
 
-/* Adjust table transparency */
+/* Table Design */
 .table {
   background: var(--card-bg) !important;
   color: var(--text-primary) !important;
-  box-shadow: 0 2px 8px var(--shadow-color) !important;
+  box-shadow: 0 4px 20px var(--shadow-color) !important;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--border-color) !important;
 }
 
 .table thead {
-  background: var(--bg-secondary) !important;
-  color: var(--text-primary) !important;
-  font-weight: 600 !important;
+  background: var(--primary-accent) !important;
+  color: var(--bg-primary) !important;
+}
+
+.table thead th {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  border-bottom: none;
+  padding: 15px;
+}
+
+.table tbody td {
+  padding: 15px;
+  vertical-align: middle;
+  border-color: var(--border-color);
 }
 
 .table tbody tr:hover {
   background: var(--hover-color) !important;
 }
 
-/* Dark mode form controls */
+/* Premium Forms */
 .form-control, .form-select {
-  background-color: var(--bg-secondary) !important;
-  border: 2px solid var(--border-color) !important;
+  background-color: var(--card-bg) !important;
+  border: 1.5px solid var(--border-color) !important;
   color: var(--text-primary) !important;
-  font-weight: 500 !important;
+  border-radius: 10px !important;
+  padding: 12px 18px !important;
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.95rem !important;
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
 .form-control:focus, .form-select:focus {
   background-color: var(--card-bg) !important;
-  border-color: #1976d2 !important;
-  box-shadow: 0 0 0 0.2rem rgba(25, 118, 210, 0.25) !important;
+  border-color: var(--gold-accent) !important;
+  box-shadow: 0 0 0 4px var(--hover-color) !important;
 }
 
-/* Dark mode modal */
+/* Modals */
 .modal-content {
   background: var(--modal-bg) !important;
+  backdrop-filter: blur(30px) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 24px !important;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.25) !important;
   color: var(--text-primary) !important;
 }
 
-/* Dark mode alert */
+.modal-header, .modal-footer {
+  border-color: var(--border-color) !important;
+}
+
+/* Alerts */
 .alert {
-  background: rgba(30, 30, 30, 0.8) !important;
-  border-color: rgba(255, 255, 255, 0.1) !important;
+  background: var(--card-bg) !important;
+  border: 1px solid var(--border-color) !important;
+  border-radius: 12px !important;
+  color: var(--text-primary) !important;
+  backdrop-filter: blur(10px);
 }
 
-/* Dark mode text and links */
+/* Typography Helpers */
+.gold-text {
+  color: var(--gold-accent) !important;
+}
+
 .text-muted {
-  color: rgba(255, 255, 255, 0.6) !important;
-}
-
-/* Typography enhancement for light mode */
-[data-theme="light"] h1,
-[data-theme="light"] h2,
-[data-theme="light"] h3,
-[data-theme="light"] h4,
-[data-theme="light"] h5,
-[data-theme="light"] h6 {
-  color: var(--text-primary);
-  text-shadow: 0 1px 2px var(--shadow-color);
+  color: var(--text-secondary) !important;
 }

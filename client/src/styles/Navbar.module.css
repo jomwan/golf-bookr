@@ -2,26 +2,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    padding: 15px 30px;
+    background-color: var(--nav-bg);
+    backdrop-filter: blur(20px) saturate(180%);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    padding: 18px 40px;
     position: fixed;
     top: 0;
     left: 0;
     right: 0;
-    z-index: 1000;
+    z-index: 1040;
+    border-bottom: 1px solid var(--border-color);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
 }
 
 .logo a {
-    color: white;
-    font-size: 24px;
-    font-weight: bold;
+    color: var(--text-primary);
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 26px;
+    font-weight: 700;
     text-decoration: none;
+    letter-spacing: 0.08em;
+    transition: opacity 0.3s ease;
+    background: linear-gradient(135deg, var(--text-primary) 0%, var(--gold-accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.logo a:hover {
+    opacity: 0.85;
 }
 
 .navLinks {
     display: flex;
-    gap: 2rem;
+    gap: 1.5rem;
     align-items: center;
     list-style: none;
     margin: 0;
@@ -31,15 +45,20 @@
 .navLink {
     position: relative;
     text-decoration: none;
-    color: #ffffff;
-    font-size: 1.1rem;
-    font-weight: 500;
-    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    font-weight: 600;
+    padding: 0.6rem 1.1rem;
+    border-radius: 20px;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
 }
 
 .navLink:hover {
-    color: #0ef92e;
+    color: var(--gold-accent);
+    background-color: var(--hover-color);
 }
 
 .navLink::after {
@@ -47,73 +66,85 @@
     position: absolute;
     width: 0;
     height: 2px;
-    bottom: 0;
+    bottom: 4px;
     left: 50%;
-    background-color: #185f22;
+    background-color: var(--gold-accent);
     transition: all 0.3s ease;
 }
 
 .navLink:hover::after {
-    width: 100%;
-    left: 0;
+    width: 40%;
+    left: 30%;
 }
 
 @media (max-width: 768px) {
     .navbar {
         flex-direction: column;
-        padding: 10px;
+        padding: 15px;
+        gap: 12px;
     }
 
     .navLinks {
-        margin-top: 10px;
         flex-wrap: wrap;
         justify-content: center;
+        gap: 0.5rem;
     }
 
-    .navLinks li {
-        margin: 5px 10px;
+    .navLink {
+        font-size: 0.9rem;
+        padding: 0.4rem 0.8rem;
     }
 }
 
 .themeToggle {
-    background: none;
-    border: none;
+    background: transparent;
+    border: 1px solid var(--border-color);
     cursor: pointer;
-    padding: 0.5rem;
+    padding: 8px;
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+    box-shadow: none !important;
 }
 
 .themeToggle:hover {
-    opacity: 0.8;
+    background-color: var(--hover-color);
+    border-color: var(--gold-accent);
+    color: var(--gold-accent);
+    transform: rotate(15deg);
+}
+
+.themeToggle svg {
+    font-size: 20px;
 }
 
 .adminLink {
-    color: #805ad5;
+    color: var(--gold-accent) !important;
     font-weight: bold;
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    border: 1px dashed var(--gold-accent);
 }
 
 .adminLink:hover {
-    color: #6b46c1;
-}
-
-.adminLink::after {
-    background-color: #6b46c1;
+    background-color: var(--hover-color);
+    color: var(--gold-accent-hover) !important;
 }
 
 .logoutBtn {
-    background: none;
-    border: none;
+    background: transparent;
+    border: 1px solid transparent;
     cursor: pointer;
     color: #e53e3e;
+    font-weight: 600;
+    box-shadow: none !important;
 }
 
 .logoutBtn:hover {
-    color: #c53030;
+    background-color: rgba(229, 62, 98, 0.08);
+    color: #c53030 !important;
+    border-color: rgba(229, 62, 98, 0.2);
 }
 
 .logoutBtn::after {
@@ -121,27 +152,18 @@
 }
 
 .adminNav {
-    background-color: #1a1a1a;
-    border-bottom: 2px solid #333;
+    background-color: var(--sidebar-bg);
+    border-bottom: 1px solid var(--gold-accent);
 }
 
 .adminLogo {
     display: flex;
     align-items: center;
     gap: 8px;
-    color: #4ade80;
+    color: var(--gold-accent) !important;
     font-weight: bold;
 }
 
-.adminLink {
-    display: flex;
-    align-items: center;
-    gap: 4px;
-    color: #4ade80 !important;
+.adminLogo svg {
+    color: var(--gold-accent);
 }
-
-.adminLink:hover {
-    color: #86efac !important;
-}
-
-
